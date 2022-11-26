@@ -1,60 +1,68 @@
 package com.example.myapplication;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener{
+public class Bookkeeping extends AppCompatActivity implements View.OnClickListener{
 
-//    private AppBarConfiguration appBarConfiguration;
+    //    private AppBarConfiguration appBarConfiguration;
 //    private ActivityMainBinding binding;
     final String TAG=this.getClass().getSimpleName();
+
+    TextView theDate, theTime;
+    Button bt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.bookkeeping_constraintlayout);
 
         Log.d(TAG, "enter onCreate()");
-
+        uiInit();
     }
 
+    private void uiInit(){
+        theDate = findViewById(R.id.textView11);
+        theTime = findViewById(R.id.textView13);
+    }
 
     @Override
     protected void onStart() {
         super.onStart();
-        //找到view root 設定click監聽
-        findViewById(android.R.id.content).setOnClickListener(this);
+        varInit();
+        setListener();
         Log.d(TAG, "enter onStart()");
     }
 
     private void varInit() {
     }
 
+    private void setListener() {
+        theTime.setOnClickListener(this);
+        theDate.setOnClickListener(this);
+    }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
-            case android.R.id.content:
-                startActivity(new Intent(this, Bookkeeping.class));
-
-                //新增過場動畫
-                overridePendingTransition(android.R.anim.slide_in_left,
-                        android.R.anim.slide_out_right);
-                //讓main activity終止
-                MainActivity.this.finish();
-        }
+        Log.d(TAG, "enter onClick()");
     }
 
     @Override
     protected void onStop() {
         Log.d(TAG, "enter onStop()");
         super.onStop();
+        releaseUiListener();
+    }
 
+    private void releaseUiListener() {
+        theTime.setOnClickListener(null);
+        theDate.setOnClickListener(null);
     }
 
     @Override
