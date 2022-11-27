@@ -14,11 +14,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    private ActivityMainBinding binding;
     final String TAG=this.getClass().getSimpleName();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         Log.d(TAG, "enter onCreate()");
 
     }
@@ -32,23 +32,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "enter onStart()");
     }
 
-    private void varInit() {
-    }
-
-
-    @Override
-    public void onClick(View view) {
-        switch (view.getId()){
-            case android.R.id.content:
-                startActivity(new Intent(this, Bookkeeping.class));
-
-                //新增過場動畫
-                overridePendingTransition(android.R.anim.slide_in_left,
-                        android.R.anim.slide_out_right);
-                //讓main activity終止
-                MainActivity.this.finish();
-        }
-    }
 
     @Override
     protected void onStop() {
@@ -83,6 +66,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case android.R.id.content:
+                startActivity(new Intent(this,Bookkeeping.class));
+
+                //新增過場動畫
+                overridePendingTransition(android.R.anim.slide_in_left,
+                        android.R.anim.slide_out_right);
+                //讓main activity終止
+                MainActivity.this.finish();
+        }
+    }
 
 
 
