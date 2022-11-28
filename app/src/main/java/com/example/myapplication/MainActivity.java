@@ -2,6 +2,9 @@ package com.example.myapplication;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 
@@ -13,13 +16,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 //    private AppBarConfiguration appBarConfiguration;
 //    private ActivityMainBinding binding;
     final String TAG=this.getClass().getSimpleName();
-
+    static int count = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG, "enter onCreate()");
+        count++;
+        Log.d(TAG, "enter onCreate(), #" +count);
 
     }
 
@@ -28,41 +32,46 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
         //找到view root 設定click監聽
-        findViewById(android.R.id.content).setOnClickListener(this);
-        Log.d(TAG, "enter onStart()");
+//        findViewById(android.R.id.content).setOnClickListener(this);
+
+        Log.d(TAG, "enter onStart(), #" +count);
+        Message msg =myHandler.obtainMessage();
+
+        myHandler.sendMessageDelayed(msg, 500);
     }
 
 
     @Override
     protected void onStop() {
-        Log.d(TAG, "enter onStop()");
+        Log.d(TAG, "enter onStop(), #" +count);
         super.onStop();
 
     }
 
     @Override
     protected void onDestroy() {
-        Log.d(TAG, "enter onDestroy()");
+        Log.d(TAG, "enter onDestroy(), #" +count);
+        count--;
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        Log.d(TAG, "enter onPause()");
+        Log.d(TAG, "enter onPause(), #" +count);
         super.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "enter onResume()");
+        Log.d(TAG, "enter onResume(), #" +count);
 
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d(TAG, "enter onRestart()");
+        Log.d(TAG, "enter onRestart(), #" +count);
     }
 
 
@@ -76,11 +85,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 overridePendingTransition(android.R.anim.slide_in_left,
                         android.R.anim.slide_out_right);
                 //讓main activity終止
-                MainActivity.this.finish();
+//                MainActivity.this.finish();
+                break;
         }
     }
 
+    private Handler myHandler = new Handler(Looper.getMainLooper()){
 
+        @Override
+        public void handleMessage(Message msg){
+            startActivity(new Intent(MainActivity.this, Bookkeeping.class));
+            overridePendingTransition(android.R.anim.slide_in_left,
+                    android.R.anim.slide_out_right);
+            //讓main activity終止
+            MainActivity.this.finish();
+        }
+    };
 
 
 

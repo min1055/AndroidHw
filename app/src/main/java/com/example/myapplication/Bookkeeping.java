@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,22 +15,23 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
     //    private AppBarConfiguration appBarConfiguration;
 //    private ActivityMainBinding binding;
     final String TAG=this.getClass().getSimpleName();
-
+    static int count = 0;
     TextView theDate, theTime;
-    Button bt;
+    Button btSave;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.bookkeeping_constraintlayout);
-
-        Log.d(TAG, "enter onCreate()");
+        count++;
+        Log.d(TAG, "enter onCreate(), #" +count);
         uiInit();
     }
 
     private void uiInit(){
         theDate = findViewById(R.id.textView11);
         theTime = findViewById(R.id.textView13);
+        btSave =findViewById(R.id.button);
     }
 
     @Override
@@ -37,7 +39,7 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
         super.onStart();
         varInit();
         setListener();
-        Log.d(TAG, "enter onStart()");
+        Log.d(TAG, "enter onStart(), #" +count);
     }
 
     private void varInit() {
@@ -46,16 +48,25 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
     private void setListener() {
         theTime.setOnClickListener(this);
         theDate.setOnClickListener(this);
+        btSave.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View view) {
-        Log.d(TAG, "enter onClick()");
+        switch (view.getId()){
+            case R.id.button:
+                startActivity(new Intent(this,MainActivity.class));
+
+                //新增過場動畫
+                overridePendingTransition(android.R.anim.slide_in_left,
+                        android.R.anim.slide_out_right);
+                break;
+        }
     }
 
     @Override
     protected void onStop() {
-        Log.d(TAG, "enter onStop()");
+        Log.d(TAG, "enter onStop(), #" +count);
         super.onStop();
         releaseUiListener();
     }
@@ -63,31 +74,33 @@ public class Bookkeeping extends AppCompatActivity implements View.OnClickListen
     private void releaseUiListener() {
         theTime.setOnClickListener(null);
         theDate.setOnClickListener(null);
+        btSave.setOnClickListener(null);
     }
 
     @Override
     protected void onDestroy() {
-        Log.d(TAG, "enter onDestroy()");
+        Log.d(TAG, "enter onDestroy(), #" +count);
+        count--;
         super.onDestroy();
     }
 
     @Override
     protected void onPause() {
-        Log.d(TAG, "enter onPause()");
+        Log.d(TAG, "enter onPause(), #" +count);
         super.onPause();
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(TAG, "enter onResume()");
+        Log.d(TAG, "enter onResume(), #" +count);
 
     }
 
     @Override
     protected void onRestart() {
         super.onRestart();
-        Log.d(TAG, "enter onRestart()");
+        Log.d(TAG, "enter onRestart(), #" +count);
     }
 
 
